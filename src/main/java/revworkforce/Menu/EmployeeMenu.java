@@ -135,9 +135,11 @@ public class EmployeeMenu {
 
         leaveService.applyLeave(leave);
     }
+
     private void viewMyLeaveStatus() {
         leaveService.viewEmployeeLeaves(emp.getEmpId());
     }
+
     private void viewNotifications() {
         NotificationService ns = new NotificationService();
         ns.viewNotifications(emp.getEmpId());
@@ -161,6 +163,7 @@ public class EmployeeMenu {
 
         performanceService.submitReview(pr);
     }
+
     private void addGoal() {
         Goal g = new Goal();
         g.setEmpId(emp.getEmpId());

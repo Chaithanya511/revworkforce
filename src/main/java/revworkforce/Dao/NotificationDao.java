@@ -8,7 +8,7 @@ import revworkforce.Util.DBUtil;
 
 public class NotificationDao {
 
-    public void addNotification(String empId, String message) {
+    public boolean addNotification(String empId, String message) {
 
         String sql = "INSERT INTO notification (emp_id, message) VALUES (?, ?)";
 
@@ -17,12 +17,15 @@ public class NotificationDao {
 
             ps.setString(1, empId);
             ps.setString(2, message);
-            ps.executeUpdate();
+
+            return ps.executeUpdate() == 1;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
+
 
     public void viewNotifications(String empId) {
 

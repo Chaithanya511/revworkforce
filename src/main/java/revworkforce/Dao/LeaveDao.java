@@ -57,9 +57,6 @@ public class LeaveDao {
             ps.setString(1, empId);
             ResultSet rs = ps.executeQuery();
 
-//            System.out.println("\nLeaveID  From       To         Type   Status");
-//            System.out.println("------------------------------------------------");
-
             while (rs.next()) {
                 System.out.println(
                         rs.getInt("leave_id") + "\t" +

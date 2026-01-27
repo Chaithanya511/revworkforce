@@ -20,13 +20,6 @@ public class LeaveService {
     public void viewEmployeeLeaves(String empId) {
         dao.viewLeavesByEmployee(empId);
     }
-//    public void approveLeave(int leaveId) {
-//        dao.updateLeaveStatus(leaveId, "APPROVED");
-//    }
-//
-//    public void rejectLeave(int leaveId) {
-//        dao.updateLeaveStatus(leaveId, "REJECTED");
-//    }
     private NotificationService notificationService = new NotificationService();
 
     public void approveLeave(int leaveId, String empId) {
@@ -51,8 +44,7 @@ public class LeaveService {
         dao.getTeamLeaves(managerId);
     }
 
-
-    public void viewProfile() {
-
-    }
+//    public void viewProfile() {
+//
+//    }
 }

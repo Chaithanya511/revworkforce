@@ -15,8 +15,23 @@ public class AdminService {
     }
 
     public void deactivateEmployee(String empId) {
-        adminDao.deactivateEmployee(empId);
-        System.out.println("Employee Deactivated");
+        boolean result = adminDao.deactivateEmployee(empId);
+
+        if (!result) {
+            System.out.println("Employee not found OR already inactive.");
+        } else {
+            System.out.println("Employee deactivated successfully.");
+        }
+    }
+
+    public void reactivateEmployee(String empId) {
+        boolean result = adminDao.reactivateEmployee(empId);
+
+        if (!result) {
+            System.out.println("Employee not found OR already active.");
+        } else {
+            System.out.println("Employee reactivated successfully.");
+        }
     }
 
     public void assignManager(String empId, String managerId) {

@@ -22,9 +22,10 @@ public class AdminMenu {
             System.out.println("1. Add New Employee");
             System.out.println("2. Update Employee Details");
             System.out.println("3. Deactivate Employee");
-            System.out.println("4. Assign / Change Manager");
-            System.out.println("5. View Employee ");
-            System.out.println("6. Leave Policy ");
+            System.out.println("4. Reactivate Employee");
+            System.out.println("5. Assign / Change Manager");
+            System.out.println("6. View Employee ");
+            System.out.println("7. Leave Policy ");
             System.out.println("0. Logout");
 
             System.out.print("Enter choice: ");
@@ -42,18 +43,31 @@ public class AdminMenu {
                     break;
 
                 case 3:
-                    deactivateEmployee();
+                    sc.nextLine();
+                    System.out.print("Enter Employee ID to deactivate: ");
+                    String empId = sc.nextLine();
+
+                    adminService.deactivateEmployee(empId);
                     break;
 
                 case 4:
+                    sc.nextLine();
+                    System.out.print("Enter Employee ID to reactivate: ");
+                    String reEmpId = sc.nextLine();
+
+                    adminService.reactivateEmployee(reEmpId);
+                    break;
+
+
+                case 5:
                     assignManager();
                     break;
 
-                case 5:
+                case 6:
                     viewEmployee();
                     break;
 
-                case 6:
+                case 7:
                     System.out.println("Leave Policy: CL=12, SL=10, PL=15 per annum");
                     break;
 
@@ -118,7 +132,6 @@ public class AdminMenu {
     private void deactivateEmployee() {
         System.out.print("Enter Employee ID to deactivate: ");
         String empId = sc.nextLine();
-
         adminService.deactivateEmployee(empId);
     }
 

@@ -8,7 +8,7 @@ import revworkforce.Util.DBUtil;
 
 public class PerformanceDao {
 
-    public void submitReview(PerformanceReview pr) {
+    public boolean submitReview(PerformanceReview pr) {
         String sql = "INSERT INTO performance_review(emp_id,achievements,improvements,self_rating) VALUES(?,?,?,?)";
 
         try (Connection con = DBUtil.getConnection();
@@ -20,6 +20,41 @@ public class PerformanceDao {
             ps.setInt(4, pr.getSelfRating());
 
             ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    public void viewTeamReviews(String managerId) {
+
+        String sql = " SELECT review_id, emp_id, self_rating, manager_rating, manager_feedback, status FROM performance_review WHERE emp_id IN (SELECT emp_id FROM employee WHERE manager_id = ?) ";
+
+
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, managerId);
+            ResultSet rs = ps.executeQuery();
+
+            System.out.println("\n--- TEAM PERFORMANCE REVIEWS ---");
+
+            boolean found = false;
+            while (rs.next()) {
+                found=true;
+                System.out.println("Review ID        : " + rs.getInt("review_id"));
+                System.out.println("Employee ID      : " + rs.getString("emp_id"));
+                System.out.println("Self Rating      : " + rs.getInt("self_rating"));
+                System.out.println("Manager Rating   : " + rs.getInt("manager_rating"));
+                System.out.println("Feedback         : " + rs.getString("manager_feedback"));
+                System.out.println("Status           : " + rs.getString("status"));
+                System.out.println("----------------------------------");
+
+            }
+
+            if (!found) {
+                System.out.println("No reviews found.");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,9 +96,28 @@ public class PerformanceDao {
             e.printStackTrace();
         }
     }
+    public String getEmployeeIdByReviewId(int reviewId) {
+        String sql = "SELECT emp_id FROM performance_review WHERE review_id = ?";
+
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, reviewId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("emp_id");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public boolean updateManagerReview(int reviewId, String feedback, int rating) {
 
-        String sql = " UPDATE performance_review SET manager_feedback = ?, manager_rating = ? WHERE review_id = ? ";
+        String sql = " UPDATE performance_review SET manager_feedback = ?, manager_rating = ?, status = 'REVIEWED' WHERE review_id = ?";
 
         try (Connection con = DBUtil.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -72,8 +126,7 @@ public class PerformanceDao {
             ps.setInt(2, rating);
             ps.setInt(3, reviewId);
 
-            ps.executeUpdate();
-
+            return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
         }

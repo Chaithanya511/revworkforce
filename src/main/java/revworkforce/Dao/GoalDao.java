@@ -78,12 +78,12 @@ public class GoalDao {
 
             System.out.println("\n--- Team Goals ---");
             while (rs.next()) {
-                System.out.println("Goal ID: " + rs.getInt("goal_id") +
-                        ", Employee: " + rs.getString("name") +
-                        ", Description: " + rs.getString("description") +
-                        ", Deadline: " + rs.getDate("deadline") +
-                        ", Priority: " + rs.getString("priority") +
-                        ", Progress: " + rs.getInt("progress") + "%");
+                System.out.println("Goal ID: " + rs.getInt("goal_id"));
+                System.out.println("Employee: " + rs.getString("name"));
+                System.out.println("Description: " + rs.getString("description"));
+                System.out.println("Deadline: " + rs.getDate("deadline"));
+                System.out.println("Priority: " + rs.getString("priority"));
+                System.out.println("Progress: " + rs.getInt("progress") + "%");
             }
 
         } catch (Exception e) {

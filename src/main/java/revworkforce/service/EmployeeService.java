@@ -6,9 +6,6 @@ import revworkforce.Model.Employee;
 public class EmployeeService {
 
     EmployeeDao dao = new EmployeeDao();
-
-
-
     public void updateProfile(Employee emp) {
 
         dao.addEmployee(emp);

@@ -3,6 +3,7 @@ package revworkforce.Menu;
 import java.util.Scanner;
 import revworkforce.service.GoalService;
 import revworkforce.Model.Employee;
+import revworkforce.Menu.EmployeeMenu;
 import revworkforce.service.EmployeeService;
 import revworkforce.service.LeaveService;
 import revworkforce.service.PerformanceService;
@@ -41,7 +42,7 @@ public class ManagerMenu extends EmployeeMenu{
     public void showMenu() {
         int choice;
 
-        do {
+        do{
             System.out.println("\n====== MANAGER MENU ======");
             System.out.println("1. View Team Members");
             System.out.println("2. View My Profile");
@@ -63,6 +64,7 @@ public class ManagerMenu extends EmployeeMenu{
                     break;
 
                 case 2:
+                    System.out.println("Displaying Details ");
                     Employee e = employeeService.getEmployeeById(emp.getEmpId());
                     if(e != null) {
                         System.out.println("Employee ID : " + e.getEmpId());
@@ -87,8 +89,10 @@ public class ManagerMenu extends EmployeeMenu{
                     break;
 
                 case 6:
+                    performanceService.viewTeamReviews(emp.getEmpId()); // SEE FIRST
                     reviewPerformance();
                     break;
+
 
                 case 7:
                     goalService.viewTeamGoals(emp.getEmpId());
@@ -143,9 +147,16 @@ public class ManagerMenu extends EmployeeMenu{
         System.out.print("Enter Rating (1-5): ");
         int rating = sc.nextInt();
 
-        performanceService.provideFeedback(reviewId, feedback, rating);
-        System.out.println("Performance feedback submitted");
+        boolean success = performanceService.provideFeedback(reviewId, feedback, rating);
+
+        if (success) {
+            System.out.println("Performance feedback submitted");
+        } else {
+            System.out.println("Review not found or already reviewed.");
+        }
+
     }
+
     private void viewMyLeaves() {
         leaveService.viewLeavesByEmpId(emp.getEmpId());
     }
