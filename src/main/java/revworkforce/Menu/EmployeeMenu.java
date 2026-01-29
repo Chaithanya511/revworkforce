@@ -78,7 +78,7 @@ public class EmployeeMenu {
                     holidayService.viewHolidayCalendar();
                     break;
                 case 9:
-                    addGoal();
+                    addGoal(emp.getEmpId());
                     break;
                 case 10:
                     updateGoalProgress();
@@ -162,23 +162,32 @@ public class EmployeeMenu {
         sc.nextLine();
 
         performanceService.submitReview(pr);
+        System.out.println("Performance submitted successfully!");
     }
 
-    private void addGoal() {
-        Goal g = new Goal();
-        g.setEmpId(emp.getEmpId());
+    private void addGoal(String empId) {
+
+        Goal goal = new Goal();
+        goal.setEmpId(empId);
 
         System.out.print("Enter Goal Description: ");
-        g.setDescription(sc.nextLine());
+        goal.setDescription(sc.nextLine());
 
         System.out.print("Enter Deadline (yyyy-mm-dd): ");
-        g.setDeadline(java.sql.Date.valueOf(sc.nextLine()));
+        goal.setDeadline(Date.valueOf(sc.nextLine()));
 
-        System.out.print("Enter Priority (High/Medium/Low): ");
-        g.setPriority(sc.nextLine());
+        System.out.print("Enter Priority (HIGH / MEDIUM / LOW): ");
+        goal.setPriority(sc.nextLine());
 
-        goalService.addGoal(g);
+        boolean success = goalService.addGoal(goal);
+
+        if (success) {
+            System.out.println("Goal added successfully!");
+        } else {
+            System.out.println("Failed to add goal.");
+        }
     }
+
 
     private void updateGoalProgress() {
         System.out.print("Enter Goal ID to update: ");

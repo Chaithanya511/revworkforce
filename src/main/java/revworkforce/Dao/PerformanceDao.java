@@ -5,26 +5,33 @@ package revworkforce.Dao;
 import java.sql.*;
 import revworkforce.Model.PerformanceReview;
 import revworkforce.Util.DBUtil;
+import revworkforce.Dao.GoalDao;
 
 public class PerformanceDao {
 
     public boolean submitReview(PerformanceReview pr) {
-        String sql = "INSERT INTO performance_review(emp_id,achievements,improvements,self_rating) VALUES(?,?,?,?)";
+
+        int nextReviewId = getNextReviewId(pr.getEmpId());
+
+        String sql = "INSERT INTO performance_review (emp_id, review_id, achievements, improvements, self_rating, status) VALUES (?, ?, ?, ?, ?, 'SUBMITTED')";
 
         try (Connection con = DBUtil.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, pr.getEmpId());
-            ps.setString(2, pr.getAchievements());
-            ps.setString(3, pr.getImprovements());
-            ps.setInt(4, pr.getSelfRating());
+            ps.setInt(2, nextReviewId);
+            ps.setString(3, pr.getAchievements());
+            ps.setString(4, pr.getImprovements());
+            ps.setInt(5, pr.getSelfRating());
 
-            ps.executeUpdate();
+            return ps.executeUpdate() > 0;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
+
     public void viewTeamReviews(String managerId) {
 
         String sql = " SELECT review_id, emp_id, self_rating, manager_rating, manager_feedback, status FROM performance_review WHERE emp_id IN (SELECT emp_id FROM employee WHERE manager_id = ?) ";
@@ -132,6 +139,26 @@ public class PerformanceDao {
         }
         return false;
     }
+    public int getNextReviewId(String empId) {
+
+        String sql = "SELECT COALESCE(MAX(review_id), 0) + 1 FROM performance_review WHERE emp_id = ?";
+
+        try (Connection con = DBUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, empId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
 
 }
 

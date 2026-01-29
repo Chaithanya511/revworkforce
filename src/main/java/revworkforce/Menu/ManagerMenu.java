@@ -9,7 +9,7 @@ import revworkforce.service.LeaveService;
 import revworkforce.service.PerformanceService;
 import revworkforce.Menu.EmployeeMenu;
 
-public class ManagerMenu extends EmployeeMenu{
+public class ManagerMenu{
 
     private Employee manager;
     private Employee emp;
@@ -26,7 +26,6 @@ public class ManagerMenu extends EmployeeMenu{
 //        this.manager = manager;
 //    }
     public ManagerMenu(Employee emp) {
-        super(emp);
         this.emp = emp;
     }
 
@@ -51,7 +50,6 @@ public class ManagerMenu extends EmployeeMenu{
             System.out.println("5. Reject Leave");
             System.out.println("6. Review Performance");
             System.out.println("7. View Team Goals");
-
             System.out.println("0. Logout");
 
             System.out.print("Enter choice: ");
@@ -100,7 +98,7 @@ public class ManagerMenu extends EmployeeMenu{
 
                 case 0:
                     System.out.println("Logging out...");
-                    break;
+                    return;
 
                 default:
                     System.out.println("Invalid choice");

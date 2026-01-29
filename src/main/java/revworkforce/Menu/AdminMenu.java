@@ -30,7 +30,7 @@ public class AdminMenu {
 
             System.out.print("Enter choice: ");
             choice = sc.nextInt();
-            sc.nextLine(); // buffer clear
+            sc.nextLine();
 
             switch (choice) {
 
@@ -43,7 +43,7 @@ public class AdminMenu {
                     break;
 
                 case 3:
-                    sc.nextLine();
+//                    sc.nextLine();
                     System.out.print("Enter Employee ID to deactivate: ");
                     String empId = sc.nextLine();
 
@@ -51,7 +51,7 @@ public class AdminMenu {
                     break;
 
                 case 4:
-                    sc.nextLine();
+//                    sc.nextLine();
                     System.out.print("Enter Employee ID to reactivate: ");
                     String reEmpId = sc.nextLine();
 
@@ -157,6 +157,8 @@ public class AdminMenu {
         System.out.println("Name        : " + emp.getName());
         System.out.println("Mail        : " + emp.getEmail());
         System.out.println("Role        : " + emp.getRole());
-        System.out.println("Status: Active");
+        String status = emp.getIsActive() == 1 ? "Active" : "Inactive";
+        System.out.println("Status      : " + status);
+
     }
 }

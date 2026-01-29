@@ -19,14 +19,6 @@ public class Main
         String pwd = sc.next();
 
         Employee emp = auth.login(id, pwd);
-        if (emp != null) {
-
-            if (emp.getRole().equalsIgnoreCase("MANAGER")) {
-                ManagerMenu managerMenu = new ManagerMenu(emp);
-                managerMenu.showMenu();
-            }
-        }
-
 
         if (emp == null) {
             System.out.println("Invalid Credentials");

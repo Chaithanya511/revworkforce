@@ -8,8 +8,9 @@ public class GoalService {
 
     private GoalDao dao = new GoalDao();
 
-    public void addGoal(Goal g) {
-        dao.addGoal(g);
+    public boolean addGoal(Goal g) {
+        return dao.addGoal(g);
+
     }
 
     public void updateProgress(int goalId, int progress) {
